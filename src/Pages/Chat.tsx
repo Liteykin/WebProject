@@ -1,11 +1,11 @@
 import type { Component } from 'solid-js';
 
-const Services: Component = () => {
+const Chat: Component = () => {
     return (
         <div>
-            <h1>Services</h1>
+            <h1>Chat</h1>
         </div>
     );
 };
 
-export default Services;
+export default Chat;
