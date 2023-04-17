@@ -9,9 +9,6 @@ const HomeBlock: Component = () => {
                     <p>123</p>
                     <button>123</button>
                 </div>
-                <div class="right">
-                    <video src="https://htmlbase.ru/storage/app/media/demo.mp4" controls></video>
-                </div>
             </menu>
 
             <section id="middle">

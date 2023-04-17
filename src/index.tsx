@@ -4,7 +4,7 @@ import { render } from 'solid-js/web';
 import { Router } from "@solidjs/router";
 
 
-import App from './App';
+import Main from './Main';
 
 const root = document.getElementById('root');
 
@@ -14,4 +14,4 @@ if (import.meta.env.DEV && !(root instanceof HTMLElement)) {
   );
 }
 
-render(() => <Router><App /></Router>, root!);
+render(() => <Router><Main /></Router>, root!);

@@ -1,7 +1,7 @@
 import type { Component } from 'solid-js';
 import {lazy} from "solid-js";
 import HomeBlock from "../Components/HomeBlock";
-const NavHome= lazy(() => import('../Components/NavHome'));
+const NavHome= lazy(() => import('../Components/Nav'));
 
 const Home: Component = () => {
     return (

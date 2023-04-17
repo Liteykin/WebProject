@@ -5,7 +5,7 @@ const Home= lazy(() => import('./pages/Home'));
 const About= lazy(() => import('./pages/About'));
 const Contact= lazy(() => import('./pages/Contact'));
 const Chat= lazy(() => import('./Pages/Chat'));
-const App: Component = () => {
+const Main: Component = () => {
   return (
       <div class="">
           <Routes>
@@ -18,4 +18,4 @@ const App: Component = () => {
   );
 };
 
-export default App;
+export default Main;

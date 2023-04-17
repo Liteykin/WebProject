@@ -1,10 +1,10 @@
 import type { Component } from 'solid-js';
 import {lazy} from "solid-js";
-const NavChat= lazy(() => import('../Components/NavChat'));
+const NavHome= lazy(() => import('../Components/Nav'));
 const Chat: Component = () => {
     return (
         <div>
-            <NavChat />
+            <NavHome />
         </div>
     );
 };
