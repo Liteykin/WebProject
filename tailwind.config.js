@@ -6,7 +6,12 @@ module.exports = {
   ],
   darkMode: 'class',
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        'poppins': ['Poppins', 'sans-serif'],
+        'roboto': ['Roboto', 'sans-serif'],
+      },
+    },
   },
   plugins: [],
 };

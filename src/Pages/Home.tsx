@@ -1,13 +1,11 @@
 import type { Component } from 'solid-js';
 import {lazy} from "solid-js";
-import HomeBlock from "../Components/HomeBlock";
 const NavHome= lazy(() => import('../Components/NavHome'));
 
 const Home: Component = () => {
     return (
-        <div>
+        <div class="h-[100vh] bg-black/[0.1]">
             <NavHome />
-            <HomeBlock />
         </div>
     );
 };
