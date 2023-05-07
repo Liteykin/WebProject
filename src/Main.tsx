@@ -7,12 +7,12 @@ const Contact= lazy(() => import('./pages/Contact'));
 const Chat= lazy(() => import('./Pages/Chat'));
 const Main: Component = () => {
   return (
-      <div class="">
+      <div class="snap-y snap-mandatory h-screen w-screen overflow-scroll m-0 p-0">
           <Routes>
-              <Route path="/" component={Home} />
-              <Route path="/About" component={About} />
-              <Route path="/Contact" component={Contact} />
-              <Route path="/Chat" component={Chat} />
+                <Route path="/" element={<Home />} />
+                <Route path="/About" element={<About />} />
+                <Route path="/Contact" element={<Contact />} />
+                <Route path="/Chat" element={<Chat />} />
           </Routes>
       </div>
   );
