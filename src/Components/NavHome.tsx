@@ -11,13 +11,13 @@ const NavHome: Component = () => {
                             <NavLink href="/" class="mr-8 p-2 hover:text-blue-500" end activeClass='text-white'>Home</NavLink>
                         </li>
                         <li class="p-10">
-                            <NavLink href="/Chat" class="mr-8 p-2 hover:text-blue-500" activeClass='text-white'>Chat</NavLink>
+                            <NavLink href="/Health" class="mr-8 p-2 hover:text-blue-500" activeClass='text-white'>Health</NavLink>
                         </li>
                         <li class="p-10">
-                            <NavLink href="/About" class="mr-8 p-2 hover:text-blue-500" activeClass='text-white'>About</NavLink>
+                            <NavLink href="/Dashboard" class="mr-8 p-2 hover:text-blue-500" activeClass='text-white'>Dashboard</NavLink>
                         </li>
                         <li class="p-10">
-                            <NavLink href="/Contact" class="mr-8 p-2 hover:text-blue-500" activeClass='text-white'>Contact</NavLink>
+                            <NavLink href="/Tasks" class="mr-8 p-2 hover:text-blue-500" activeClass='text-white'>Tasks</NavLink>
                         </li>
                     </ul>
                 </div>
