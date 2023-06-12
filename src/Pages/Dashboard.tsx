@@ -1,14 +1,12 @@
-import type { Component } from 'solid-js';
-import {lazy} from "solid-js";
-import Calendar from "../Components/Calendar";
-const Dashboard: Component = () => {
-    return (
-        <div class="m-0 p-0">
-            <div  class="snap-start bg-cyan-200 h-screen flex">
-                <Calendar />
-            </div>
-        </div>
-    );
-};
+import React from 'react';
+const Dashboard = () => {
+  return (
+      <div className="m-0 p-0">
+        <div
+            className="snap-start bg-amber-200 w-screen h-screen flex items-center justify-center scroll-auto">
+      </div>
+    </div>
+  );
+}
 
 export default Dashboard;

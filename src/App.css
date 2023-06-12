@@ -2,10 +2,20 @@
 @tailwind components;
 @tailwind utilities;
 
-.logo.vite:hover {
-  filter: drop-shadow(0 0 2em #747bff);
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translate3d(0, -100%, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
 }
 
-.logo.solid:hover {
-  filter: drop-shadow(0 0 2em #2f5d90);
+.animate-fade-in-down {
+  animation-name: fadeInDown;
+  animation-duration: 1s;
 }
+

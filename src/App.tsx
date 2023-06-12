@@ -1,27 +1,16 @@
-// App.tsx
-import { createSignal } from "solid-js";
-import logo from "./assets/logo.svg";
-import { invoke } from "@tauri-apps/api/tauri";
-import "./App.css";
-import { Router } from "@solidjs/router";
-import Menu from "./Components/Menu";
+import React from 'react';
+import './App.css';
+import Menu from './Components/Menu';
+import { CartProvider } from './Components/CartContext';
 
-function App() {
-  const [greetMsg, setGreetMsg] = createSignal("");
-  const [name, setName] = createSignal("");
-
-  async function greet() {
-    // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
-    setGreetMsg(await invoke("greet", { name: name() }));
-  }
-
-  return (
-      <div class="bg-white overflow-x-hidden">
-        <Router>
-          <Menu />
-        </Router>
-      </div>
-  );
+const App = () => {
+    return (
+        <div className="overflow-x-hidden">
+            <CartProvider>
+                <Menu />
+            </CartProvider>
+        </div>
+    );
 }
 
 export default App;
