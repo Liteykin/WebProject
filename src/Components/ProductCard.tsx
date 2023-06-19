@@ -1,31 +1,44 @@
-import React, { useContext } from 'react';
-import { CartContext } from './CartContext';
+import React, { useContext } from "react";
+import { CartContext, Product } from "./CartContext";
 
-interface Product {
-    id: number;
-    name: string;
-    price: number;
-    imageUrl: string;
-    description: string;
-    category: string;
-    deliveryDate: string;
-    rating: number;
-    inStock: boolean;
+interface ProductCardProps {
+    product: Product;
 }
 
-const ProductCard: React.FC<Product> = (product) => {
+const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     const { addToCart } = useContext(CartContext);
 
+    const handleAddToCart = (product: Product) => {
+        addToCart(product);
+    };
+
     return (
-        <div className="border border-gray-300 rounded p-4">
-            <img src={product.imageUrl} alt={product.name} className="w-full h-64 object-cover mb-4" />
-            <h2 className="text-lg font-semibold mb-2">{product.name}</h2>
-            <p className="text-gray-500 mb-2">{product.description}</p>
-            <p className="text-gray-500 mb-2">Delivery date: {product.deliveryDate}</p>
-            <p className="text-gray-500 mb-2">Rating: {product.rating}</p>
-            <p className="text-gray-500 mb-2">In stock: {product.inStock ? 'Yes' : 'No'}</p>
-            <p className="text-lg font-semibold mb-4">${product.price}</p>
-            <button onClick={() => addToCart(product)} className="px-4 py-2 bg-blue-500 text-white rounded">Add to cart</button>
+        <div className="group relative">
+            <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
+                <img
+                    src={product.imageUrl}
+                    alt={product.name}
+                    className="h-full w-full object-cover object-center lg:h-full lg:w-full"
+                />
+            </div>
+            <div className="mt-4 flex justify-between">
+                <div>
+                    <h3 className="text-sm text-gray-700">
+                        <span aria-hidden="true" className="absolute inset-0" />
+                        {product.name}
+                    </h3>
+                    <p className="mt-1 text-sm text-gray-500">{product.category}</p>
+                </div>
+                <div className="flex items-center">
+                    <p className="text-sm font-medium text-gray-900">${product.price}</p>
+                    <button
+                        onClick={() => handleAddToCart(product)}
+                        className="ml-4 px-4 py-2 bg-blue-500 text-white rounded"
+                    >
+                        Add to cart
+                    </button>
+                </div>
+            </div>
         </div>
     );
 };

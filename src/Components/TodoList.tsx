@@ -1,32 +1,74 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 interface Todo {
     id: number;
-    text: string;
-    completed: boolean;
+    userId: number;
+    title: string;
+    description: string;
+    dueDate: string;
+    isCompleted: boolean;
 }
 
 const TodoList: React.FC = () => {
     const [todos, setTodos] = useState<Todo[]>([]);
     const [input, setInput] = useState("");
 
-    const addTodo = () => {
-        if (input.trim() !== "") {
-            setTodos([...todos, { id: Date.now(), text: input, completed: false }]);
-            setInput("");
+    useEffect(() => {
+        fetchTodos();
+    }, []);
+
+    const fetchTodos = async () => {
+        try {
+            const response = await axios.get<Todo[]>("https://localhost:7001/api/Todo/GetAllTodos");
+            setTodos(response.data);
+        } catch (error) {
+            console.error("Error fetching todos:", error);
         }
     };
 
-    const toggleTodo = (id: number) => {
-        setTodos(
-            todos.map((todo) =>
-                todo.id === id ? { ...todo, completed: !todo.completed } : todo
-            )
-        );
+    const addTodo = async () => {
+        if (input.trim() !== "") {
+            const newTodo: Todo = {
+                id: 0,
+                userId: 0,
+                title: input,
+                description: "string",
+                dueDate: "2023-06-13T09:43:58.712Z",
+                isCompleted: true,
+            };
+
+            try {
+                const response = await axios.post<Todo>("https://localhost:7001/api/Todo/AddTodo", newTodo);
+                setTodos([...todos, response.data]);
+                setInput("");
+            } catch (error) {
+                console.error("Error adding todo:", error);
+            }
+        }
     };
 
-    const removeTodo = (id: number) => {
+    const toggleTodo = async (id: number) => {
+        const updatedTodos = todos.map((todo) =>
+            todo.id === id ? { ...todo, isCompleted: !todo.isCompleted } : todo
+        );
+        setTodos(updatedTodos);
+
+        try {
+            await axios.put(`https://localhost:7001/api/Todo/UpdateTodo/${id}`, updatedTodos.find((todo) => todo.id === id));
+        } catch (error) {
+            console.error("Error updating todo:", error);
+        }
+    };
+
+    const removeTodo = async (id: number) => {
         setTodos(todos.filter((todo) => todo.id !== id));
+
+        try {
+            await axios.delete(`https://localhost:7001/api/Todo/DeleteTodo/${id}`);
+        } catch (error) {
+            console.error("Error deleting todo:", error);
+        }
     };
 
     return (
@@ -50,9 +92,9 @@ const TodoList: React.FC = () => {
                         <div className="flex justify-between items-center border border-gray-300 rounded px-4 py-2">
               <span
                   onClick={() => toggleTodo(todo.id)}
-                  className={`flex-grow cursor-pointer ${todo.completed ? "line-through text-gray-500" : ""}`}
+                  className={`flex-grow cursor-pointer ${todo.isCompleted ? "line-through text-gray-500" : ""}`}
               >
-                {todo.text}
+                {todo.title}
               </span>
                             <button onClick={() => removeTodo(todo.id)} className="ml-4 bg-red-500 text-white rounded px-4 py-2">
                                 Remove

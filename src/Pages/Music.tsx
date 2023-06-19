@@ -6,7 +6,7 @@ class Music extends React.Component {
         return (
             <div className="m-0 p-0">
             <div
-                className="snap-start bg-amber-200 w-screen h-screen flex items-center justify-center scroll-auto">
+                className="snap-start bg-amber-300 w-full h-screen flex items-center justify-center scroll-auto">
                 <MusicPlayer />
             </div>
         </div>

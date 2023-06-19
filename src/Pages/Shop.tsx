@@ -1,8 +1,9 @@
-// Shop.tsx
-import React, { useState, useContext } from "react";
-import ProductCard from "../Components/ProductCard";
+import React, { useState, useContext } from 'react';
+import ProductCard from '../Components/ProductCard';
 import Cart from '../Components/Cart';
 import { CartContext } from '../Components/CartContext';
+import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/20/solid';
+import cart from "../Components/Cart";
 
 interface Product {
     id: number;
@@ -17,19 +18,19 @@ interface Product {
 }
 
 const Shop: React.FC = () => {
-    const [search, setSearch] = useState("");
-    const [category, setCategory] = useState("All");
+    const [search, setSearch] = useState('');
+    const [category, setCategory] = useState('All');
     const [page, setPage] = useState(1);
     const [cartOpen, setCartOpen] = useState(false);
-    const { cart } = useContext(CartContext);
-    const productsPerPage = 5;
+    const { addToCart } = useContext(CartContext);
+    const productsPerPage = 8;
 
     const products: Product[] = [
         {
             id: 1,
             name: "Product 1",
             price: 10.99,
-            imageUrl: "https://example.com/product1.jpg",
+            imageUrl: "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fi5.walmartimages.com%2Fasr%2F3a5ce2a3-3f38-414f-9724-5cead37da903.2a44fbcacd1b7e68a403a37ec0d0afda.jpeg&f=1&nofb=1&ipt=d6af2207b7124e2f9217b08a1e25b8e2348f7c23f67d2395b94b84d0a4fd4649&ipo=images",
             description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
             category: "Category 1",
             deliveryDate: "2023-06-15",
@@ -266,9 +267,11 @@ const Shop: React.FC = () => {
             deliveryDate: "2023-07-06",
             rating: 4.2,
             inStock: true,
-        }    ];
+        }
 
-    const categories = ["All", ...Array.from(new Set(products.map((product) => product.category)))];
+    ];
+
+    const categories = ['All', ...Array.from(new Set(products.map((product) => product.category)))];
 
     const handleCategoryChange = (selectedCategory: string) => {
         setCategory(selectedCategory);
@@ -281,7 +284,7 @@ const Shop: React.FC = () => {
     };
 
     const filteredProducts = products
-        .filter((product) => (category === "All" ? true : product.category === category))
+        .filter((product) => (category === 'All' ? true : product.category === category))
         .filter((product) => {
             const searchTerm = search.toLowerCase();
             return (
@@ -300,24 +303,48 @@ const Shop: React.FC = () => {
         setPage(pageNumber);
     };
 
-    return (
-        <div className="container mx-auto px-4">
-            <button onClick={() => setCartOpen(true)}>Open cart ({cart.length} items)</button>
+    const addToCartWithValidation = (product: Product) => {
+        try {
+            addToCart(product);
+            alert('Product added to cart');
+        } catch (error) {
+            alert('An error occurred while adding the product to the cart');
+        }
+    };
 
-            <div className="flex justify-between items-center my-4">
-                <div>
-                    <label htmlFor="search">Search:</label>
+    return (
+        <div className="mx-auto px-4">
+            <div className="flex justify-between items-center my-1">
+                <div className="relative">
+                    <label htmlFor="search" className="sr-only">
+                        Search:
+                    </label>
                     <input
                         type="text"
                         id="search"
+                        className="pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                        placeholder="Search"
                         value={search}
                         onChange={handleSearchChange}
                     />
+                    <svg
+                        className="absolute left-3 top-2.5 h-5 w-5 text-gray-400"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                    >
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 15l6-6m0 0l-6-6m6 6H3" />
+                    </svg>
                 </div>
+                <button onClick={() => setCartOpen(true)}>Open cart ({cart.length} items)</button>
                 <div>
-                    <label htmlFor="category">Category:</label>
+                    <label htmlFor="category" className="mr-2">
+                        Category:
+                    </label>
                     <select
                         id="category"
+                        className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                         value={category}
                         onChange={(e) => handleCategoryChange(e.target.value)}
                     >
@@ -330,31 +357,49 @@ const Shop: React.FC = () => {
                 </div>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 h-full">
                 {displayedProducts.map((product, index) => (
-                    <div
-                        key={product.id}
-                        className={`${
-                            index === 0 && displayedProducts.length === 1 ? "sm:col-span-2" : ""
-                        } animate-fade-in-down`}
-                    >
-                        <ProductCard {...product} />
+                    <div key={product.id} className={`${index === 0 && displayedProducts.length === 1 ? 'sm:col-span-2' : ''} animate-fade-in-down`}>
+                        <ProductCard product={product} />
                     </div>
                 ))}
             </div>
 
             <div className="flex justify-center mt-4 fixed bottom-4 left-0 right-0">
-                {Array.from({ length: totalPages }, (_, index) => (
-                    <button
-                        key={index}
-                        onClick={() => handlePageChange(index + 1)}
-                        className={`mx-2 px-4 py-2 bg-blue-500 text-white rounded ${
-                            index + 1 === page ? "bg-blue-700" : ""
+                <nav className="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
+                    <a
+                        href="#"
+                        className={`relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${
+                            page === 1 ? 'pointer-events-none opacity-50' : ''
                         }`}
+                        onClick={() => handlePageChange(page - 1)}
                     >
-                        {index + 1}
-                    </button>
-                ))}
+                        <span className="sr-only">Previous</span>
+                        <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
+                    </a>
+                    {Array.from({ length: totalPages }, (_, index) => (
+                        <a
+                            key={index}
+                            href="#"
+                            className={`relative inline-flex items-center px-4 py-2 text-sm font-semibold ${
+                                index + 1 === page ? 'bg-indigo-600 text-white' : 'text-gray-900'
+                            } ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0`}
+                            onClick={() => handlePageChange(index + 1)}
+                        >
+                            {index + 1}
+                        </a>
+                    ))}
+                    <a
+                        href="#"
+                        className={`relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${
+                            page === totalPages ? 'pointer-events-none opacity-50' : ''
+                        }`}
+                        onClick={() => handlePageChange(page + 1)}
+                    >
+                        <span className="sr-only">Next</span>
+                        <ChevronRightIcon className="h-5 w-5" aria-hidden="true" />
+                    </a>
+                </nav>
             </div>
 
             <Cart open={cartOpen} onClose={() => setCartOpen(false)} />

@@ -21,10 +21,10 @@ const Cart: React.FC<CartProps> = ({ open, onClose }) => {
                 </button>
             </div>
             {cart.map((product) => (
-                <div key={product.id} className="border-b pb-2 mb-2">
+                <div key={product.id} className="border-b pb-2 mb-2 hover:bg-gray-100 transition-colors duration-200">
                     <h2 className="text-lg font-semibold mb-1">{product.name}</h2>
                     <p className="text-gray-500 mb-1">{product.quantity} x ${product.price}</p>
-                    <button onClick={() => removeFromCart(product.id)} className="px-2 py-1 text-sm text-red-500 hover:text-red-700">
+                    <button onClick={() => removeFromCart(product.id)} className="px-2 py-1 text-sm text-red-500 hover:text-red-700 transition-colors duration-200">
                         Remove
                     </button>
                 </div>
